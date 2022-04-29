@@ -46,7 +46,11 @@ class NetworkModule {
     }
 
     @Provides
-    fun provideRetrofitClient(okHttpClient: OkHttpClient, baseUrl: String, converterFactory: Converter.Factory): Retrofit {
+    fun provideRetrofitClient(
+        okHttpClient: OkHttpClient,
+        baseUrl: String,
+        converterFactory: Converter.Factory
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)

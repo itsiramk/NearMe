@@ -1,41 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/density_5dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/density_8dp"
+    app:cardElevation="@dimen/density_8dp"
+    app:cardMaxElevation="@dimen/density_10dp"
+    android:fillViewport="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/imgPlaces"
-        android:layout_width="60dp"
-        android:layout_height="0dp"
-        android:padding="4dp"
-        android:background="@drawable/avatar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvPlaceName"
-        style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgPlaces"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="MindOrks" />
+        <TextView
+            android:id="@+id/tvCountry"
+            android:layout_width="@dimen/density_100dp"
+            android:layout_height="@dimen/density_100dp"
+            android:layout_margin="@dimen/density_10dp"
+            android:background="@drawable/circle_bg2"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/density_18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/avatar" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvPlaceCountryLocation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvPlaceName"
-        app:layout_constraintTop_toBottomOf="@+id/tvPlaceName"
-        tools:text="MindOrks" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/density_20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvCountry">
+        <TextView
+            android:id="@+id/tvPlaceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/density_10dp"
+            android:layout_marginStart="@dimen/density_20dp"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvPlaceCountryLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:lines="2"
+
+            android:paddingEnd="@dimen/density_10dp"
+            android:layout_marginStart="@dimen/density_20dp"
+            android:layout_marginEnd="@dimen/density_10dp"
+            android:layout_marginTop="@dimen/density_10dp"
+            android:layout_below="@+id/tvPlaceName"
+            android:text="@string/app_name" />
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

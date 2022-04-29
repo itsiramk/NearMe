@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="density_5dp">5dp</dimen>
+    <dimen name="density_10dp">10dp</dimen>
+    <dimen name="density_15dp">15dp</dimen>
+    <dimen name="density_20dp">20dp</dimen>
+    <dimen name="density_30dp">30dp</dimen>
+    <dimen name="density_70dp">70dp</dimen>
+    <dimen name="app_bar_height">350dp</dimen>
+    <dimen name="density_100dp">100dp</dimen>
+    <dimen name="density_50dp">50dp</dimen>
+    <dimen name="density_12dp">12dp</dimen>
+    <dimen name="density_8dp">8dp</dimen>
+    <dimen name="density_18sp">18sp</dimen>
+
+</resources>

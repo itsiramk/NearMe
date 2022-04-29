@@ -14,100 +14,41 @@ class PlacesViewModel @Inject constructor(
 ) : ViewModel() {
 
     var job: Job? = null
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        onError("Exception handled: ${throwable.localizedMessage}")
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        onError(error)
     }
     val placesLiveData = MutableLiveData<List<Result>>()
     val usersLoadError = MutableLiveData<String?>()
     val loading = MutableLiveData<Boolean>()
+    private val error = "Unable to reach server !!";
 
     fun fetchVenueRecommendations(query: Map<String, String>) {
         loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = mainRepository.getVenueRecommendations(query)
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    placesLiveData.value = response.body()?.results
-                    usersLoadError.value = null
-                    loading.value = false
-                } else {
-                    onError("Error : ${response.message()} ")
+                try {
+                    if (response.isSuccessful) {
+                        placesLiveData.postValue(response.body()?.results)
+                        usersLoadError.postValue(null)
+                        loading.postValue(false)
+                    } else {
+                        onError(error)
+                    }
+                } catch (e: Exception) {
+                    onError(error)
                 }
             }
         }
-        usersLoadError.value = ""
-        loading.value = false
     }
 
     private fun onError(message: String) {
-        usersLoadError.value = message
-        loading.value = false
+        usersLoadError.postValue(message)
+        loading.postValue(false)
     }
 
     override fun onCleared() {
         super.onCleared()
         job?.cancel()
     }
-
-
-/*
-    fun fetchVenueRecommendations(query:Map<String,String>) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = mainRepository.getVenueRecommendations(query)
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        //Do something with response e.g show to the UI.
-                        placesLiveData.postValue(response.body())
-                    } else {
-                        //toast("Error: ${response.code()}")
-                    }
-                } catch (e: HttpException) {
-                  //  toast("Exception ${e.message}")
-                } catch (e: Throwable) {
-                 //   toast("Ooops: Something else went wrong")
-                }
-            }
-        }
-
-     }
-*/
-
-
-/*
-    fun getUserInfoByUsername(query:Map<String,String>) {
-
-        viewModelScope.launch {
-            try {
-                if (true) {
-                    val response = mainRepository.getVenueRecommendations(query)
-                    placesLiveData.postValue(response.body())
-                } else {
-                  //  picsData.postValue(Resource.Error(getApplication<MyApplication>().getString(R.string.no_internet_connection)))
-                }
-            } catch (t: Throwable) {
-                when (t) {
-                  */
-/*  is IOException -> picsData.postValue(
-                        Resource.Error(
-                            getApplication<MyApplication>().getString(
-                                R.string.network_failure
-                            )
-                        )
-                    )
-                    else -> picsData.postValue(
-                        Resource.Error(
-                            getApplication<MyApplication>().getString(
-                                R.string.conversion_error
-                            )
-                        )
-                    )*//*
-
-                }
-            }
-        }
-    }
-*/
-
 }
