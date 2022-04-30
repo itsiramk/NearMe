@@ -8,5 +8,6 @@
     <string name="permit_manually">Permit Manually</string>
     <string name="location_permission_msg">Please permit the permission through Settings screen. Select Permissions -> Enable permission</string>
     <string name="ok">OK</string>
+    <string name="exit">Please click BACK again to exit</string>
 
 </resources>

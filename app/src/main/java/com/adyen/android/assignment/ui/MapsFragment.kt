@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.adyen.android.assignment.R
 import com.adyen.android.assignment.api.VenueRecommendationsQueryBuilder
 import com.adyen.android.assignment.api.model.Result
@@ -40,7 +39,7 @@ import kotlinx.android.synthetic.main.item_marker_details.*
 
 
 @AndroidEntryPoint
-class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
+class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
@@ -52,7 +51,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
     private lateinit var currentLocation: Location
     private var nearbylocationList: List<Result> = ArrayList()
     private var isPermissionGranted: Boolean = false
-    private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,8 +98,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
             places?.let { nearbylocationList = it }
         })
         placesViewModel.usersLoadError.observe(viewLifecycleOwner, { isError ->
-            if(isError.toString().isNotEmpty())
-            permissionUtils.showAlert(isError.toString(),requireContext().getString(R.string.ok))
+            if (isError.toString().isNotEmpty())
+                permissionUtils.showAlert(
+                    isError.toString(),
+                    requireContext().getString(R.string.ok)
+                )
         })
     }
 
@@ -132,8 +134,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (permissionUtils.neverAskAgainSelected()
                 ) {
-                    permissionUtils.showAlert(requireContext().getString(R.string.location_permission_msg),
-                    requireContext().getString(R.string.permit_manually))
+                    permissionUtils.showAlert(
+                        requireContext().getString(R.string.location_permission_msg),
+                        requireContext().getString(R.string.permit_manually)
+                    )
                 } else {
                     ActivityCompat.requestPermissions(
                         requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -165,50 +169,53 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
                 marker
             )
         )
-        imgMyLocation.setOnClickListener{
-        for (i in nearbylocationList.indices) {
-            googleMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(nearbylocationList[i].geocodes.main.latitude, nearbylocationList[i].geocodes.main.longitude))
-                    .icon(bitmapDescriptor).snippet(i.toString())
-            )
-            txtMarkerTitle.text = requireContext().getString(R.string.nearby_places)
-        }}
+        imgMyLocation.setOnClickListener {
+            if (nearbylocationList.isNullOrEmpty()) {
+                fetchUserCurrentLocation()
+            }
+            for (i in nearbylocationList.indices) {
+                    googleMap.addMarker(MarkerOptions().position(LatLng(nearbylocationList[i].geocodes.main.latitude,nearbylocationList[i].geocodes.main.longitude))
+                            .icon(bitmapDescriptor).snippet(i.toString())
+                    )
+                    txtMarkerTitle.text = requireContext().getString(R.string.nearby_places)
+                }
+        }
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
         googleMap.setOnMarkerClickListener(this)
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        if(marker.snippet!=null){
-        val position: Int? = marker.snippet?.toInt()
-        val dialog = BottomSheetDialog(requireContext())
-        val view = layoutInflater.inflate(R.layout.layout_bottom_sheet, null)
-        val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
-         val tvItemName = view.findViewById<TextView>(R.id.tvItemName)
-         val tvItemDetails = view.findViewById<TextView>(R.id.tvItemDetails)
-         val tvError = view.findViewById<TextView>(R.id.tvError)
-         if(position!=null){
-             val name = nearbylocationList[position].name
-             val address = nearbylocationList[position].location.formatted_address
-             if(name.isNotEmpty()){
-                 tvItemName.visibility = View.VISIBLE
-                 tvItemName.text = name
-             }
-             if(address.isNotEmpty()){
-                 tvItemDetails.visibility = View.VISIBLE
-                 tvItemDetails.text = address
-             }
-             if(name.isNullOrEmpty() && name.isNullOrEmpty()){
-                 tvError.visibility = View.VISIBLE
-                 tvError.text = requireContext().getString(R.string.no_data)}
-         }
-        btnClose.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.setCancelable(false)
-        dialog.setContentView(view)
-        dialog.show()
+        if (marker.snippet != null) {
+            val position: Int? = marker.snippet?.toInt()
+            val dialog = BottomSheetDialog(requireContext())
+            val view = layoutInflater.inflate(R.layout.layout_bottom_sheet, null)
+            val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
+            val tvItemName = view.findViewById<TextView>(R.id.tvItemName)
+            val tvItemDetails = view.findViewById<TextView>(R.id.tvItemDetails)
+            val tvError = view.findViewById<TextView>(R.id.tvError)
+            if (position != null) {
+                val name = nearbylocationList[position].name
+                val address = nearbylocationList[position].location.formatted_address
+                if (name.isNotEmpty()) {
+                    tvItemName.visibility = View.VISIBLE
+                    tvItemName.text = name
+                }
+                if (address.isNotEmpty()) {
+                    tvItemDetails.visibility = View.VISIBLE
+                    tvItemDetails.text = address
+                }
+                if (name.isNullOrEmpty() && name.isNullOrEmpty()) {
+                    tvError.visibility = View.VISIBLE
+                    tvError.text = requireContext().getString(R.string.no_data)
+                }
+            }
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.setCancelable(false)
+            dialog.setContentView(view)
+            dialog.show()
         }
         return false
     }
