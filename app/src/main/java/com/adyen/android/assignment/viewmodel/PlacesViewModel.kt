@@ -30,7 +30,7 @@ class PlacesViewModel @Inject constructor(
                 try {
                     if (response.isSuccessful) {
                         placesLiveData.postValue(response.body()?.results)
-                        usersLoadError.postValue(null)
+                        usersLoadError.postValue("")
                         loading.postValue(false)
                     } else {
                         onError(error)

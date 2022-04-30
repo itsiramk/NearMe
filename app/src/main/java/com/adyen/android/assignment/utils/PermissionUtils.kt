@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
+import com.adyen.android.assignment.R
 
 
 class PermissionUtils(var activity: Activity, var permission: String) {
@@ -36,21 +37,20 @@ class PermissionUtils(var activity: Activity, var permission: String) {
         return genPrefs.getBoolean(permission, false)
     }
 
-     fun displayNeverAskAgainDialog() {
+     fun showAlert(msg:String,positiveBtnString:String) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
-        builder.setMessage(
-            "Please permit the permission through Settings screen. Select Permissions -> Enable permission".trimIndent()
-        )
+        builder.setMessage(msg)
         builder.setCancelable(false)
-        builder.setPositiveButton("Permit Manually",
-            DialogInterface.OnClickListener { dialog, which ->
-                dialog.dismiss()
+        builder.setPositiveButton(positiveBtnString) { dialog, _ ->
+            dialog.dismiss()
+            if (positiveBtnString == activity.getString(R.string.permit_manually)) {
                 val intent = Intent()
                 intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                 val uri: Uri = Uri.fromParts("package", activity.packageName, null)
                 intent.data = uri
                 activity.startActivity(intent)
-            })
-        builder.show()
+            }
+        }
+         builder.show()
     }
 }

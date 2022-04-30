@@ -5,4 +5,8 @@
     <string name="dismiss_dialog">Dismiss Dialog</string>
     <string name="check_details">Check Details</string>
     <string name="no_data">No Data Available</string>
+    <string name="permit_manually">Permit Manually</string>
+    <string name="location_permission_msg">Please permit the permission through Settings screen. Select Permissions -> Enable permission</string>
+    <string name="ok">OK</string>
+
 </resources>

@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.adyen.android.assignment.R
 import com.adyen.android.assignment.api.VenueRecommendationsQueryBuilder
 import com.adyen.android.assignment.api.model.Result
@@ -34,7 +35,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_maps.*
 import kotlinx.android.synthetic.main.item_marker_details.*
 
@@ -98,6 +98,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
         placesViewModel.placesLiveData.observe(viewLifecycleOwner, { places ->
             places?.let { nearbylocationList = it }
         })
+        placesViewModel.usersLoadError.observe(viewLifecycleOwner, { isError ->
+            if(isError.toString().isNotEmpty())
+            permissionUtils.showAlert(isError.toString(),requireContext().getString(R.string.ok))
+        })
     }
 
     override fun onRequestPermissionsResult(
@@ -128,7 +132,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (permissionUtils.neverAskAgainSelected()
                 ) {
-                    permissionUtils.displayNeverAskAgainDialog()
+                    permissionUtils.showAlert(requireContext().getString(R.string.location_permission_msg),
+                    requireContext().getString(R.string.permit_manually))
                 } else {
                     ActivityCompat.requestPermissions(
                         requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
