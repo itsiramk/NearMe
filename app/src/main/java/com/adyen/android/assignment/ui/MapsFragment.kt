@@ -10,13 +10,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.adyen.android.assignment.R
 import com.adyen.android.assignment.api.VenueRecommendationsQueryBuilder
-import com.adyen.android.assignment.api.model.GeoCode
+import com.adyen.android.assignment.api.model.Result
 import com.adyen.android.assignment.utils.ActivityUtils
 import com.adyen.android.assignment.utils.PermissionUtils
 import com.adyen.android.assignment.viewmodel.PlacesViewModel
@@ -30,8 +32,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_maps.*
+import kotlinx.android.synthetic.main.item_marker_details.*
 
 
 @AndroidEntryPoint
@@ -42,13 +47,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
         private const val locationPermission = Manifest.permission.ACCESS_FINE_LOCATION
     }
 
-    private lateinit var mMap : GoogleMap
     private lateinit var permissionUtils: PermissionUtils
     private val placesViewModel: PlacesViewModel by viewModels()
     private lateinit var currentLocation: Location
-    private var nearbylocationList: MutableList<GeoCode> = ArrayList()
+    private var nearbylocationList: List<Result> = ArrayList()
     private var isPermissionGranted: Boolean = false
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,7 +65,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         permissionUtils = PermissionUtils(requireActivity(), locationPermission)
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
+            requireActivity()
+        )
         observeViewModel()
     }
 
@@ -89,11 +96,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
 
     private fun observeViewModel() {
         placesViewModel.placesLiveData.observe(viewLifecycleOwner, { places ->
-            places?.let { resultList ->
-                for (i in resultList) {
-                    nearbylocationList.add(i.geocodes)
-                }
-            }
+            places?.let { nearbylocationList = it }
         })
     }
 
@@ -145,6 +148,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
         val latLng = LatLng(currentLocation.latitude, currentLocation.longitude)
         val currentLocationMarker =
             MarkerOptions().position(latLng).title("Your current location")
+        googleMap.addMarker(currentLocationMarker)?.showInfoWindow()
         val marker: View =
             (requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
                 R.layout.layout_marker_title,
@@ -156,22 +160,52 @@ class MapsFragment : Fragment(), OnMapReadyCallback,GoogleMap.OnMarkerClickListe
                 marker
             )
         )
-
         imgMyLocation.setOnClickListener{
-        for (i in nearbylocationList) {
+        for (i in nearbylocationList.indices) {
             googleMap.addMarker(
                 MarkerOptions()
-                    .position(LatLng(i.main.latitude, i.main.longitude))
-                    .icon(bitmapDescriptor)
+                    .position(LatLng(nearbylocationList[i].geocodes.main.latitude, nearbylocationList[i].geocodes.main.longitude))
+                    .icon(bitmapDescriptor).snippet(i.toString())
             )
+            txtMarkerTitle.text = requireContext().getString(R.string.nearby_places)
         }}
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f))
-        googleMap.addMarker(currentLocationMarker)?.showInfoWindow()
+        googleMap.setOnMarkerClickListener(this)
     }
 
-    override fun onMarkerClick(p0: Marker): Boolean {
-        return false;
+    override fun onMarkerClick(marker: Marker): Boolean {
+        if(marker.snippet!=null){
+        val position: Int? = marker.snippet?.toInt()
+        val dialog = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.layout_bottom_sheet, null)
+        val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
+         val tvItemName = view.findViewById<TextView>(R.id.tvItemName)
+         val tvItemDetails = view.findViewById<TextView>(R.id.tvItemDetails)
+         val tvError = view.findViewById<TextView>(R.id.tvError)
+         if(position!=null){
+             val name = nearbylocationList[position].name
+             val address = nearbylocationList[position].location.formatted_address
+             if(name.isNotEmpty()){
+                 tvItemName.visibility = View.VISIBLE
+                 tvItemName.text = name
+             }
+             if(address.isNotEmpty()){
+                 tvItemDetails.visibility = View.VISIBLE
+                 tvItemDetails.text = address
+             }
+             if(name.isNullOrEmpty() && name.isNullOrEmpty()){
+                 tvError.visibility = View.VISIBLE
+                 tvError.text = requireContext().getString(R.string.no_data)}
+         }
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
+        }
+        return false
     }
 
 }

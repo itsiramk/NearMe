@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Near Me</string>
     <string name="maps_key">AIzaSyDnmrziz0phv7BJd289glR2gx8ZIS-Z_Lw</string>
-    <string name="click">Click to know!</string>
+    <string name="nearby_places">Nearby Places</string>
+    <string name="dismiss_dialog">Dismiss Dialog</string>
+    <string name="check_details">Check Details</string>
+    <string name="no_data">No Data Available</string>
 </resources>

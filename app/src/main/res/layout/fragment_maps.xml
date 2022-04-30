@@ -12,42 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <RelativeLayout
-        android:id="@+id/rel_markers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rect_shadow"
-        app:layout_constraintBottom_toTopOf="@+id/imgMyLocation"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/txt_marker_title"
-            android:layout_width="@dimen/density_100dp"
-            android:layout_height="@dimen/density_20dp"
-            android:background="@drawable/rounded_rectangle"
-            android:gravity="center"
-            android:text="@string/click"
-            android:ellipsize="end"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/img_marker_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_marker_title"
-            android:layout_centerHorizontal="true"
-            android:adjustViewBounds="true"
-            android:rotation="180"
-            android:scaleType="fitStart"
-            android:visibility="visible"
-            app:srcCompat="@drawable/shape_triangle_down"
-
-            />
-
-    </RelativeLayout>
+    <include layout="@layout/item_marker_details" />
     <ImageView
         android:id="@+id/imgMyLocation"
         android:layout_width="wrap_content"

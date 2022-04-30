@@ -9,13 +9,5 @@
         android:id="@+id/mapsFragment"
         android:name="com.adyen.android.assignment.ui.MapsFragment"
         android:label="Map List"
-        tools:layout="@layout/fragment_maps" >
-        <action
-            android:id="@+id/action_mapsFragment_to_placesFragment"
-            app:destination="@id/placesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/placesFragment"
-        android:name="com.adyen.android.assignment.ui.PlacesFragment"
-        android:label="PlacesFragment" />
+        tools:layout="@layout/fragment_maps" />
 </navigation>

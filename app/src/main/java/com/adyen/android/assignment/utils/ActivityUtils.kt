@@ -14,7 +14,15 @@ class ActivityUtils {
         // Convert a view to bitmap
         fun createDrawableFromView(context: Context, view: View): Bitmap {
             val displayMetrics = DisplayMetrics()
-            (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                val display = context.display
+                display?.getRealMetrics(displayMetrics)
+            } else {
+                @Suppress("DEPRECATION")
+                val display =  (context as Activity).windowManager.defaultDisplay
+                @Suppress("DEPRECATION")
+                display.getMetrics(displayMetrics)
+            }
             view.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
