@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rel_markers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rect_shadow">
+
+            <TextView
+                android:id="@+id/txt_marker_title"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_rectangle"
+                android:gravity="center"
+                android:text="@string/click"
+                android:ellipsize="end"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/img_marker_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_marker_title"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:rotation="180"
+                android:scaleType="fitStart"
+                android:visibility="visible"
+                app:srcCompat="@drawable/shape_triangle_down"
+
+                />
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_markers"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/site_marker" />
+
+    </RelativeLayout>
+
+</LinearLayout>

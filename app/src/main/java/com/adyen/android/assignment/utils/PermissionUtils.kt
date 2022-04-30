@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
-import java.security.Permissions
 
 
 class PermissionUtils(var activity: Activity, var permission: String) {

@@ -5,7 +5,7 @@ data class Result(
     val fsq_id: String="",
     val distance: Int,
     val geocodes: GeoCode,
-    val location: Location,
+    val location: PlaceLocation,
     val name: String="",
     val timezone: String="",
 )

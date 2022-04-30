@@ -1,6 +1,6 @@
 package com.adyen.android.assignment.api.model
 
-data class Location(
+data class PlaceLocation(
     val address: String="",
     val country: String="",
     val locality: String="",
