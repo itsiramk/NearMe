@@ -12,5 +12,6 @@
     <dimen name="density_12dp">12dp</dimen>
     <dimen name="density_8dp">8dp</dimen>
     <dimen name="density_18sp">18sp</dimen>
+    <dimen name="density_12sp">12sp</dimen>
 
 </resources>
