@@ -28,11 +28,11 @@ App uses the FusedLocationProviderClient and fetches uses current location.
 
 *API to plot users nearby Location* - Foursquare Places API (https://api.foursquare.com/v3/places/nearby/<PARAMS>)
 
-![Screenshot_20220430-225631_Permission controller](https://user-images.githubusercontent.com/16866972/166221452-0e59ca4b-824d-40cb-8117-f281e06b0784.jpg) ![Screenshot_20220430-225639_Near Me](https://user-images.githubusercontent.com/16866972/166221432-77f9f2f5-ce37-4c6f-9f62-e0511bd583d3.jpg)
+<img width="220" alt="image1" src="https://user-images.githubusercontent.com/16866972/166221452-0e59ca4b-824d-40cb-8117-f281e06b0784.jpg">  <img width="220" alt="image2" src="https://user-images.githubusercontent.com/16866972/166221432-77f9f2f5-ce37-4c6f-9f62-e0511bd583d3.jpg">
 
-![Screenshot_20220430-214821_Near Me](https://user-images.githubusercontent.com/16866972/166221672-e8cafd46-92c4-4f64-bcca-696db82493ed.jpg) ![Screenshot_20220430-214859_Near Me](https://user-images.githubusercontent.com/16866972/166221774-33f8fbbf-04fb-4e2f-b19f-b8df3538608d.jpg)
+<img width="220" alt="image3" src="https://user-images.githubusercontent.com/16866972/166221672-e8cafd46-92c4-4f64-bcca-696db82493ed.jpg">  <img width="220" alt="image4" src="https://user-images.githubusercontent.com/16866972/166221774-33f8fbbf-04fb-4e2f-b19f-b8df3538608d.jpg">
 
-![Screenshot_20220430-214942_Near Me](https://user-images.githubusercontent.com/16866972/166221804-ded492f7-4a53-415f-8c03-420c304058a7.jpg) ![Screenshot_20220430-214929_Near Me](https://user-images.githubusercontent.com/16866972/166221844-04f49979-3743-4f24-a58c-64b74137c1ac.jpg)
+<img width="220" alt="image5" src="https://user-images.githubusercontent.com/16866972/166221804-ded492f7-4a53-415f-8c03-420c304058a7.jpg">  <img width="220" alt="image6" src="https://user-images.githubusercontent.com/16866972/166221844-04f49979-3743-4f24-a58c-64b74137c1ac.jpg">
 
 
 

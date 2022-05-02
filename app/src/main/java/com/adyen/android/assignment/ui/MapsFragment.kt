@@ -177,7 +177,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickList
                     googleMap.addMarker(MarkerOptions().position(LatLng(nearbylocationList[i].geocodes.main.latitude,nearbylocationList[i].geocodes.main.longitude))
                             .icon(bitmapDescriptor).snippet(i.toString())
                     )
-                    txtMarkerTitle.text = requireContext().getString(R.string.nearby_places)
                 }
         }
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
