@@ -42,13 +42,15 @@ class PermissionUtils(var activity: Activity, var permission: String) {
         builder.setMessage(msg)
         builder.setCancelable(false)
         builder.setPositiveButton(positiveBtnString) { dialog, _ ->
-            dialog.dismiss()
             if (positiveBtnString == activity.getString(R.string.permit_manually)) {
                 val intent = Intent()
                 intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                 val uri: Uri = Uri.fromParts("package", activity.packageName, null)
                 intent.data = uri
                 activity.startActivity(intent)
+            }else{
+                dialog.dismiss()
+                activity.finish()
             }
         }
          builder.show()
