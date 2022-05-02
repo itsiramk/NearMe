@@ -29,17 +29,8 @@ class CashRegister(private val change: Change) {
         }
         System.out.println(total)
         System.out.println(price)
-        var returnChange=Change()
         val balance = amountPaid.total - price
         System.out.println(balance)
-        val abc = Change.max().getElements()
-        System.out.println(abc)
-        abc.forEach {
-           /* if(balance.toInt()==it){
-                returnChange = change.add(it,1)
-            }*/
-        }
-        System.out.println(returnChange.total)
         return Change.max()
     }
 
